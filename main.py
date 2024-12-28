@@ -3,6 +3,7 @@ import sys
 from asteroid import Asteroid
 from constants import *
 from player import Player
+from shot import Shot
 from asteroidfield import AsteroidField
 
 def main():
@@ -24,6 +25,9 @@ def main():
     AsteroidField.containers = (updatable)
     asteroid_field = AsteroidField()
 
+    shots = pg.sprite.Group()
+    Shot.containers = (updatable, drawable, shots)
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -34,6 +38,10 @@ def main():
         for asteroid in asteroids:
             if asteroid.isCollidingWith(player):
                 sys.exit("Game over!")
+            for shot in shots:
+                if shot.isCollidingWith(asteroid):
+                    asteroid.split()
+                    shot.kill()
         for item in drawable:
             item.draw(screen)
         pg.display.flip()
