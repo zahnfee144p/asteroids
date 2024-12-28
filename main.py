@@ -16,6 +16,7 @@ def main():
             if event.type == pg.QUIT:
                 return
         screen.fill("black")
+        player.update(dt)
         player.draw(screen)
         pg.display.flip()
         dt = clock.tick(60)/1000
